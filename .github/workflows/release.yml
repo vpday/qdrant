@@ -27,8 +27,9 @@ jobs:
     - name: Build
       run: |
         cargo build --release --target ${TARGET_ARCH} --bin qdrant
+        mv ./target/${TARGET_ARCH}/release/qdrant ./qdrant
     - name: Archive
       uses: actions/upload-artifact@v3
       with:
-        name: qdrant-release
-        path: ./target/${TARGET_ARCH}/release
+        name: qdrant
+        path: qdrant

@@ -23,13 +23,11 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Build
       run: |
-        ls -l
-        ls -l ./qdrant
-        copy ./qdrant/tools/target_arch.sh ./target_arch.sh
+        copy ./tools/target_arch.sh ./target_arch.sh
         echo "Building for $TARGETARCH, arch: $(bash target_arch.sh)"
         cargo build --release --target $(bash target_arch.sh) --bin qdrant
     - name: Archive
       uses: actions/upload-artifact@v3
       with:
         name: qdrant-artifact
-        path: ./qdrant/qdrant
+        path: ./target/$(bash target_arch.sh)/release/qdrant

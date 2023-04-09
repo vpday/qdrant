@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  TARGET_ARCH: x86_64-unknown-linux-gnu
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,10 +26,10 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Build
       run: |
-        echo "Building for $TARGETARCH, arch: $(bash ./tools/target_arch.sh)"
-        cargo build --release --target $(bash ./tools/target_arch.sh) --bin qdrant
+        cargo build --release --target ${TARGET_ARCH} --bin qdrant
+        ls -l
     - name: Archive
       uses: actions/upload-artifact@v3
       with:
         name: qdrant-artifact
-        path: ./target/$(bash ./tools/target_arch.sh)/release/qdrant
+        path: ./target/${TARGET_ARCH}/release/qdrant
